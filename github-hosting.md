@@ -48,6 +48,7 @@ cat << "EOF" >> ~/.ssh/config
 Host github.com
      IdentityFile ~/.ssh/id_rsa_bioconductor
 EOF
+```
 
 #### Summary steps for adding new key:
 
