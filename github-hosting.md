@@ -29,8 +29,32 @@ If you need to (re)configure:
 git remote set-url origin git@github.com:bioconductor-source/<pkgname>.git
 ```
 
+You will then need to make sure the ssh key from your git.bioconductor.org account (or a new SSH key) is also accepted by GitHub.
+
+#### Quick example:
+
 Refer to the full GitHub SSH authentication guide for generating and registering keys:
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh
+
+1) I have a private key at `~/.ssh/id_rsa` and a public key at `~/.ssh/id_rsa.pub`. I use `pbcopy < ~/.ssh/id_rsa.pub` to save the contents of the public key to clipboard.
+
+2) I go to [https://github.com/settings/keys](https://github.com/settings/keys) on my GitHub profile, and upload my public key portion.
+
+3) I add the appropriate portion to `~/.ssh/config`:
+```bash
+cat << "EOF" >> ~/.ssh/config
+Host github.com
+     IdentityFile ~/.ssh/id_rsa
+EOF
+```
+
+4) I use `git push` as usual. Note: It is expected and normal for you to get a prompt confirming your first SSH connection.
+```
+The authenticity of host 'github.com (140.82.112.4)' can't be established.
+XXXXXX key fingerprint is SHA256:+XXXXXXxxxxxXXXXXXXxxxxXXXXXX.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+```
 
 ### 2. HTTPS Access & Authentication
 Existing HTTPS clone / fetch patterns that begin with `https://git.bioconductor.org` will be redirected to the GitHub equivalent and should continue to work, but authentication is now handled by GitHub, not gitolite.
