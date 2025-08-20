@@ -31,7 +31,25 @@ git remote set-url origin git@github.com:bioconductor-source/<pkgname>.git
 
 You will then need to make sure the ssh key from your git.bioconductor.org account (or a new SSH key) is also accepted by GitHub.
 
-#### Quick example:
+#### Summary steps for using existing key:
+
+For most, the SSH key accepted for your git.bioconductor.org connection should already be registered with your GitHub account, as that has been recommended for some time.
+You can verify that you have a public key uploaded to GitHub by going to `https://github.com/<your-username>.keys`.
+If the key that you use for git.bioconductor.org already has a corresponding public key uploaded to your GitHub profile, you only need to add the appropriate portion to `~/.ssh/config` for the GitHub SSH connection.
+
+If you do not know the path at which your git.bioconductor.org private key file resides, you may look for the `IdentityFile` line output by this command to help you find it:
+```bash
+grep -A3 'git.bioconductor.org' ~/.ssh/config
+```
+Once identified, edit your `~/.ssh/config` file accordingly:
+
+```bash
+cat << "EOF" >> ~/.ssh/config
+Host github.com
+     IdentityFile ~/.ssh/id_rsa_bioconductor
+EOF
+
+#### Summary steps for adding new key:
 
 Refer to the full GitHub SSH authentication guide for generating and registering keys:
 https://docs.github.com/en/authentication/connecting-to-github-with-ssh
